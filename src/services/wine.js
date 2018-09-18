@@ -14,6 +14,15 @@ export async function queryWineDetail(params) {
   })
 }
 
+
+export async function queryAgreePortocol(params) {
+  return request("/front/protocol/index", {
+    method : 'get',
+    params : params
+  })
+}
+
+
 export async function buyWine(params) {
   return request('/front/LiquorProduct/buy', {
     method : 'POST',

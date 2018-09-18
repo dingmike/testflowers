@@ -1,5 +1,5 @@
 import { queryClassify } from '../services/crowd';
-import { queryByCategoryId, queryWineDetail, buyWine } from '../services/wine';
+import { queryByCategoryId, queryWineDetail, buyWine, queryAgreePortocol } from '../services/wine';
 import { Toast } from 'antd-mobile'
 import { parse } from 'qs';
 import { routerRedux } from 'dva/router';
@@ -11,7 +11,9 @@ export default {
     list : [],
     detail : {},
     showModal : false,
-    showAgreeModal:false
+    showAgreeModal: false,
+    agreed: false, // 默认不同意协议
+    agreeContent:''
   },
   subscriptions : {
     setup({ dispatch, history }){
@@ -24,6 +26,9 @@ export default {
           dispatch({
             type : 'queryDetailById',
             payload : opt
+          });
+          dispatch({
+            type : 'queryAgreeContentByType'
           })
         }
       })
@@ -81,6 +86,23 @@ export default {
       }
       yield put({ type : 'hideLoading' })
     },
+
+    *queryAgreeContentByType({ payload }, { call, put }){
+      yield put({ type : 'showLoading' })
+      const { data : d } = yield call(queryAgreePortocol,{ type : 1 });
+      if(d && d.code === 200){
+        console.log(d.data)
+        yield put({
+          type : "queryAgreementContent",
+          payload : d.data
+        })
+      }else if( d && d.code === 300){
+        Toast.fail(d.msg ,2 )
+      }
+      yield put({ type : 'hideLoading' })
+    },
+
+
     *buyWine({ payload }, { call, put }){
       yield put({ type : 'showLoading' })
       try{
@@ -119,6 +141,13 @@ export default {
         detail : payload
       }
     },
+    queryAgreementContent(state,{payload}){
+      return {
+        ...state,
+        agreeContent: payload
+      }
+    },
+
     showLoading(state){
       return {
         ...state,
@@ -137,6 +166,12 @@ export default {
         showModal: true
       }
     },
+    hideModal(state){
+      return {
+        ...state,
+        showModal : false
+      }
+    },
     showAgreeModal(state){
       return {
         ...state,
@@ -146,14 +181,23 @@ export default {
     hideAgreeModal(state){
       return {
         ...state,
+        agreed : false,
         showAgreeModal: false
       }
     },
-    hideModal(state){
+    agreePortocol(state){
       return {
         ...state,
-        showModal : false
+        agreed : true,
+        showAgreeModal: false,
+        showModal: true
       }
     },
+    agreeFalse(state){
+      return {
+        ...state,
+        agreed : false,
+      }
+    }
   }
 }

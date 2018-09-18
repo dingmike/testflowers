@@ -1,4 +1,4 @@
-import { queryClassify, queryList, queryDetail, buycrowd } from '../services/crowd';
+import { queryClassify, queryList, queryDetail, buycrowd, queryAgreePortocol} from '../services/crowd';
 import { parse } from 'qs';
 import { Toast } from 'antd-mobile'
 import { routerRedux } from 'dva/router'
@@ -9,7 +9,10 @@ export default {
     pr : [],
     sa : [],
     detail : {},
-    showModal : false
+    showModal : false,
+    showAgreeModal: false,
+    agreed: false, // 默认不同意协议
+    agreeContent:''
   },
   subscriptions : {
     setup({ dispatch, history }){
@@ -19,6 +22,11 @@ export default {
           dispatch({
             type : "queryCrowdDetail",
             payload : opt
+          })
+          debugger
+          dispatch({
+            type : 'queryAgreeContentByType',
+            payload: opt
           })
         }
         if(pathname === '/crowd'){
@@ -33,7 +41,7 @@ export default {
       try{
         const { data: pr } = yield call(queryClassify, { typeId: 1 });
         if(pr && pr.code === 200) {
-          yield put({ 
+          yield put({
             type : 'queryPrSuccess',
             payload : pr.data
           })
@@ -47,7 +55,7 @@ export default {
                   Toast.fail(one.msg ,2 )
                 }
               }
-            yield put({ 
+            yield put({
               type : 'querySaSuccess',
               payload : sa.data
             })
@@ -75,7 +83,7 @@ export default {
                 Toast.fail(one.msg ,2 )
               }
             }
-          yield put({ 
+          yield put({
             type : 'querySaSuccess',
             payload : sa.data
           })
@@ -92,7 +100,7 @@ export default {
       try{
         const { data : d } = yield call(queryDetail,{...payload});
         if(d && d.code === 200) {
-          yield put({ 
+          yield put({
             type : 'queryCrowdDetailSuccess',
             payload : d.data
           })
@@ -103,6 +111,19 @@ export default {
         throw new Error(err)
       }
       yield put({ type: 'hideLoading' })
+    },
+    *queryAgreeContentByType({ payload }, { call, put }){
+      yield put({ type : 'showLoading' })
+      const { data : d } = yield call(queryAgreePortocol,{ type : 2 });
+      if(d && d.code === 200){
+        yield put({
+          type : "queryAgreementContent",
+          payload : d.data
+        })
+      }else if( d && d.code === 300){
+        Toast.fail(d.msg ,2 )
+      }
+      yield put({ type : 'hideLoading' })
     },
     *buycrowd({ payload }, { call, put }){
       yield put({ type : 'showLoading' })
@@ -167,6 +188,39 @@ export default {
       return {
         ...state,
         detail : payload
+      }
+    },
+    queryAgreementContent(state,{payload}){
+      return {
+        ...state,
+        agreeContent: payload
+      }
+    },
+    showAgreeModal(state){
+      return {
+        ...state,
+        showAgreeModal: true
+      }
+    },
+    hideAgreeModal(state){
+      return {
+        ...state,
+        agreed : false,
+        showAgreeModal: false
+      }
+    },
+    agreePortocol(state){
+      return {
+        ...state,
+        agreed : true,
+        showAgreeModal: false,
+        showModal: true
+      }
+    },
+    agreeFalse(state){
+      return {
+        ...state,
+        agreed : false,
       }
     }
   }

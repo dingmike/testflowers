@@ -1,6 +1,6 @@
 import React from 'react';
 import { connect } from 'dva';
-import { 
+import {
   Carousel,
   Icon,
   List,
@@ -11,6 +11,7 @@ import {
 import Image from '../../../components/Image'
 import GraySpace from '../../../components/GraySpace'
 import BuyForm from './buyForm';
+import AgreementModal from './agreementModal';
 import styles from './index.less'
 import { routerRedux } from 'dva/router';
 
@@ -19,7 +20,7 @@ function CrowdDetail({
   crowd,
   dispatch
 }){
-  const { 
+  const {
     detail:{
       accomplish=0,
       accomplishMoney=0,
@@ -31,16 +32,27 @@ function CrowdDetail({
       notes
     },
     showModal,
-    loading
+    loading,
+    showAgreeModal,
+    agreed,
+    agreeContent
   } = crowd;
+  debugger
+  const {protocolContent,type} = agreeContent;
   const buyFormProps = {
     money,
     fundingNumber,
     onOk: (opt)=> dispatch({ type : "crowd/buycrowd", payload : opt })
+  };
+  const imgs = masterImg.split(',');
+  function hideAgreementModal() {
+    dispatch({ type: 'crowd/hideAgreeModal' })
   }
-  const imgs = masterImg.split(',')
+  function agreePortocol() {
+    dispatch({ type: 'crowd/agreePortocol' })
+  }
   return(
-    <div 
+    <div
       onLoad={()=>{
         window.scrollTo({
           top : 0,
@@ -48,13 +60,13 @@ function CrowdDetail({
       }}
       className={ styles.wrapper }
     >
-      <span 
+      <span
         className={ styles.back }
-        onClick={()=>dispatch(routerRedux.go(-1))}
+        onClick={()=>{dispatch(routerRedux.go(-1));dispatch({type: 'crowd/agreeFalse'})}}
       >
-        <Icon 
-          type="left" 
-          size="md" 
+        <Icon
+          type="left"
+          size="md"
           style={{
             color : '#fff'
           }}/>
@@ -92,21 +104,28 @@ function CrowdDetail({
           textIndent : "2rem"
         }}>{notes}</p>
       </div>
-      <Modal 
-        visible={showModal} 
-        popup 
+      <Modal
+        visible={showModal}
+        popup
         animationType="slide-down"
         onClose={()=>dispatch({ type: 'crowd/hideModal' })}
       >
         <BuyForm {...buyFormProps}/>
       </Modal>
       <div className={styles.btn}>
-        <Button 
+        <Button
           type="warning"
-          onClick={()=>dispatch({type:'crowd/showModal'})}
+          onClick={()=>{
+            if(agreed){
+              debugger
+              dispatch({type:'crowd/showModal'})
+            }else{
+              dispatch({type:'crowd/showAgreeModal'})
+            }}}
         >参与</Button>
       </div>
       <ActivityIndicator toast animating={loading} text="数据装填中..."/>
+      <AgreementModal showAgreement={showAgreeModal} agreed={agreed} hideAgreement={hideAgreementModal} agreePortocol={agreePortocol} agreementContent={protocolContent}/>
     </div>
   )
 }

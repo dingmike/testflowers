@@ -14,7 +14,7 @@ import { routerRedux } from 'dva/router';
 import BuyForm from './buyForm';
 
 function WineDetail({ dispatch, wine }) {
-  const { loading, detail, showModal, showAgreeModal  } = wine;
+  const { loading, detail, showModal, showAgreeModal,agreed,agreeContent  } = wine;
   const {
     imgDescArr=[],
     money=0,
@@ -24,18 +24,28 @@ function WineDetail({ dispatch, wine }) {
     context="",
     id,
     imgDesc
-  } = detail
+  } = detail;
+
+  const {protocolContent,type} = agreeContent;
   const buyFormProps = {
     money,
     id,
     onOk: (opt)=> dispatch({ type : "wine/buyWine", payload : opt })
+  }
+
+
+  function hideAgreementModal() {
+    dispatch({ type: 'wine/hideAgreeModal' })
+  }
+  function agreePortocol() {
+    dispatch({ type: 'wine/agreePortocol' })
   }
   return (
     <Fragment>
       <div className={styles.banner}>
         <div
           className={styles.back}
-          onClick={()=>dispatch(routerRedux.go(-1))}
+          onClick={()=>{dispatch(routerRedux.go(-1)); dispatch({type: 'wine/agreeFalse'})}}
         ><Icon type="left" size="lg" style={{color : '#fff'}}/></div>
         <Banner dataSource={imgDescArr} play={loading}/>
       </div>
@@ -71,7 +81,12 @@ function WineDetail({ dispatch, wine }) {
       <div className={ styles.btn }>
         <Button
           type="warning"
-          onClick={()=>dispatch({type:'wine/showModal'})}
+          onClick={()=>{
+            if(agreed){
+              dispatch({type:'wine/showModal'})
+            }else{
+              dispatch({type:'wine/showAgreeModal'})
+            }}}
         >购买</Button>
       </div>
       <Modal
@@ -84,8 +99,7 @@ function WineDetail({ dispatch, wine }) {
       </Modal>
       <ActivityIndicator animating={loading} text="加载中..." toast/>
 
-
-      <AgreementModal showAgreement={showAgreeModal}/>
+      <AgreementModal showAgreement={showAgreeModal} agreed={agreed} hideAgreement={hideAgreementModal} agreePortocol={agreePortocol} agreementContent={protocolContent}/>
 
     </Fragment>
   )

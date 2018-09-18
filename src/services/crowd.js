@@ -28,3 +28,10 @@ export async function buycrowd(params) {
     data : stringify(params)
   })
 }
+
+export async function queryAgreePortocol(params) {
+  return request("/front/protocol/index", {
+    method : 'get',
+    params : params
+  })
+}

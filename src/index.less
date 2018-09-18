@@ -1,0 +1,21 @@
+:global {
+  body::-webkit-scrollbar{
+    display: none;
+  }
+  body, html {
+    margin : 0;
+    height: 100%;
+    // overflow: auto;
+    -webkit-overflow-scrolling : touch;
+  }
+  #root {
+    display: -webkit-box;
+    /* autoprefixer: off */
+    box-orient: vertical;
+    -webkit-box-orient: vertical;
+    // /* autoprefixer: on */
+    height: 100%;
+    background-color: #f3f3f3;
+    position: relative;
+  }
+} 

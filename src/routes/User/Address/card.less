@@ -1,0 +1,51 @@
+.user{
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  &>p {
+    font-size: 1rem;
+    font-weight: bold;
+  }
+  &>span{
+    color: #CCCCCC;
+    font-size: .9rem;
+  }
+}
+
+.handle {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding : 10px 0;
+  border-top: 1px solid #EFEFEF;
+}
+
+.wrapper {
+  padding : 10px;
+  margin-bottom : 10px;
+  background : #fff;
+}
+
+.operation {
+  &>span {
+    display: inline-block;
+    padding : 10px 15px;
+    font-size: 16px;
+    font-weight: bold;
+  }
+}
+
+:global(.custom-radio>.am-radio){
+  padding: 2.5px;
+  border: 1px solid #ccc;
+  border-radius: 50%;
+  margin-right: 5px;
+}
+
+:global(.am-radio.am-radio-checked .am-radio-inner:after){
+  border-color: #A52227;
+}
+
+.remove {
+  color: #A52227;
+}

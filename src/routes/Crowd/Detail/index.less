@@ -1,0 +1,55 @@
+.header {
+  position: relative;
+}
+
+.back {
+  display: flex;
+  height: 32px;
+  width: 32px;
+  border-radius: 16px;
+  background : rgba(0, 0, 0, 0.7);
+  justify-content: center;
+  align-items: center;
+  position: fixed;
+  top : 10px;
+  left : 10px;
+  z-index: 5;
+}
+
+.h4{
+  &::after{
+    content: "";
+    display: block;
+    height: 2px;
+    width: 30px;
+    background: #9F1016;
+    margin-top: 10px;
+  }
+  margin : 10px 0;
+  font-size: 20px;
+  color: #CF9357;
+}
+
+.body {
+  padding : 10px 15px;
+}
+
+.btn {
+  position: fixed;
+  bottom : 0;
+  left: 0;
+  right : 0;
+  z-index: 6;
+}
+.wrapper {
+  padding-bottom: 47px;
+  background: #fff;
+}
+
+.html {
+  width : 100%;
+  & img {
+    display: block;
+    width: 100%;
+  }
+}

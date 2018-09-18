@@ -1,0 +1,71 @@
+.badgeImg {
+  display : inline-block; 
+  width : 28px;
+}
+
+.searchIcon {
+  color : #ABABAB;
+}
+
+.detailItem {
+  display: inline-block;
+  margin-right: 5px;
+  margin-left: 5px;
+  position: relative;
+  border-radius: 5px;
+  overflow: hidden;
+  background : #F7F1E5;
+  &> img{
+    display: block;
+    width : 100%;
+  }
+}
+.content {
+  padding : 20px 10px;
+  overflow-x: scroll;
+  white-space: nowrap;
+}
+.h4{
+  &::after{
+    content: "";
+    display: block;
+    height: 2px;
+    width: 30px;
+    background: #9F1016;
+    margin-top: 10px;
+  }
+  margin : 10px 0;
+}
+
+.dContent {
+  padding : 10px;
+}
+
+.dTitle {
+  display: flex;
+  justify-content: space-between;
+}
+.info {
+  text-indent: 2rem;
+  white-space : normal;
+  line-height: 1.5rem;
+}
+
+.btn {
+  position: absolute;
+  bottom : 10px;
+  right : 10px;
+}
+
+.noData {
+  text-align: center;
+  color : #9f9f9f;
+}
+
+.searching {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color : #efefef;
+  font-size: 18px;
+}

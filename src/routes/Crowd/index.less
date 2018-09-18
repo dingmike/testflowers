@@ -1,0 +1,68 @@
+.badgeImg {
+  display : inline-block; 
+  width : 28px;
+}
+
+.prBox {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-top: 2px solid #EFEFEF;
+  border-bottom: 2px solid #EFEFEF;
+  padding : 5px 0;
+  &>div{
+    flex : 1;
+    text-align: center;
+    padding: 10px 0;
+    font-size: 0.9rem;
+  }
+  &>div:first-child{
+    border-right: 1px solid #EFEFEF;
+  }
+}
+.cardWrapper {
+  background : #EFEFEF;
+  padding : 10px;
+}
+.card {
+  margin-bottom : 10px;
+  border-radius: 8px;
+  overflow: hidden;
+  background : #fff;
+}
+.cardBody {
+  padding : 10px;
+}
+.h4{
+  &::after{
+    content: "";
+    display: block;
+    height: 2px;
+    width: 30px;
+    background: #9F1016;
+    margin-top: 10px;
+  }
+  margin : 10px 0;
+}
+.notes {
+  text-indent: 2rem;
+  color : #7f7f7f;
+}
+.rateText {
+  display: flex;
+  justify-content: space-between;
+  &>span{
+    flex : 1;
+  }
+}
+
+.complete {
+  color :#CF9357;
+}
+
+.cardFooter {
+  margin-top: 25px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}

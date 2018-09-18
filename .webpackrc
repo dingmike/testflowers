@@ -1,0 +1,17 @@
+{
+  "extraBabelPlugins" : [
+    ["import",{"libraryName": "antd-mobile", "style": true}]
+  ],
+  "theme" : {
+    "@brand-important": "#992124",
+    "@ghost-button-color": "#9D0F14",
+    "@warning-button-fill" : "#9D0F14"
+  },
+  "hash": true,
+  "html" : {
+    "template": "./src/index.ejs",
+    "filename" : "index.html",
+    "title" : "诗城酒乡"
+  },
+  "entry" : "./src/index.js"
+}

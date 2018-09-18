@@ -1,0 +1,38 @@
+.box {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  color : #676767;
+}
+
+.checked {
+  height:18px;
+  width : 18px;
+  box-shadow: 0 0 0px 2px #D8D8D8;
+  border-radius: 9px;
+  position: relative;
+  margin : 0 5px;
+  &::after {
+    content: " ";
+    display: block;
+    width: 14px;
+    height : 14px;
+    border-radius: 7px;
+    background: #9D0F14;
+    position: absolute;
+    top : 2px;
+    left : 2px;
+  }
+}
+
+.not {
+  height:18px;
+  width : 18px;
+  box-shadow: 0 0 0px 2px #D8D8D8;
+  border-radius: 9px;
+  position: relative;
+  margin : 0 5px;
+}
+.text {
+  font-size: 16px;
+}

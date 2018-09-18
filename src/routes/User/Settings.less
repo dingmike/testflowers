@@ -1,0 +1,36 @@
+.name {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding : 10px 15px;
+  font-size: 1rem;
+  &>span{
+    font-size: 17px;
+  }
+  border-bottom: 1px solid #eeeeee;
+  color : #676767;
+}
+.extra {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  position: relative;
+  &>img{
+    display: block;
+    width: 80px;
+    border-radius: 50%;
+  } 
+  &>input {
+    opacity: 0;
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    top : 0;
+    left: 0;
+  }
+}
+.modal {
+  position: relative;
+}
+
+.button {}

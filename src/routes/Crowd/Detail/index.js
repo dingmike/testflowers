@@ -35,9 +35,9 @@ function CrowdDetail({
     loading,
     showAgreeModal,
     agreed,
-    agreeContent
+    agreeContent,
+    showApprove
   } = crowd;
-  debugger
   const {protocolContent,type} = agreeContent;
   const buyFormProps = {
     money,
@@ -50,6 +50,13 @@ function CrowdDetail({
   }
   function agreePortocol() {
     dispatch({ type: 'crowd/agreePortocol' })
+  }
+  function hideApprove() {
+    dispatch({ type: 'crowd/hideApproveModal' })
+  }
+  function gotoCertification() {
+    dispatch({ type: 'crowd/hideApproveModal' })
+    dispatch(routerRedux.push('/application/certification'))
   }
   return(
     <div
@@ -112,12 +119,26 @@ function CrowdDetail({
       >
         <BuyForm {...buyFormProps}/>
       </Modal>
+
+      <Modal
+        visible={showApprove}
+        onClose={()=> hideApprove()}
+        transparent
+        maskClosable={false}
+        closable={false}
+        title="提示"
+        footer={[{ text: '关闭', onPress: () => { console.log('ok'); hideApprove() } },{text: '实名认证', onPress:()=>{ console.log('实名认证去'); gotoCertification();}}]}
+      >
+        还未实名认证！
+      </Modal>
+
+
+
       <div className={styles.btn}>
         <Button
           type="warning"
           onClick={()=>{
             if(agreed){
-              debugger
               dispatch({type:'crowd/showModal'})
             }else{
               dispatch({type:'crowd/showAgreeModal'})

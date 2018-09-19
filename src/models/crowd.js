@@ -12,7 +12,8 @@ export default {
     showModal : false,
     showAgreeModal: false,
     agreed: false, // 默认不同意协议
-    agreeContent:''
+    agreeContent:'',
+    showApprove: false
   },
   subscriptions : {
     setup({ dispatch, history }){
@@ -135,6 +136,9 @@ export default {
         if(r && r.code ===200) {
           yield put({ type : 'hideModal' })
           Toast.success(r.msg, 2)
+          if(!r.data){
+            yield put({type: 'showApproveModal'})
+          }
         }else if( r && r.code === 300){
           Toast.fail(r.msg ,2 )
         }else if( r && r.code ===2001){
@@ -221,6 +225,18 @@ export default {
       return {
         ...state,
         agreed : false,
+      }
+    },
+    hideApproveModal(state){
+      return {
+        ...state,
+        showApprove : false,
+      }
+    },
+    showApproveModal(state){
+      return {
+        ...state,
+        showApprove : true,
       }
     }
   }

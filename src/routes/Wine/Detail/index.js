@@ -14,7 +14,7 @@ import { routerRedux } from 'dva/router';
 import BuyForm from './buyForm';
 
 function WineDetail({ dispatch, wine }) {
-  const { loading, detail, showModal, showAgreeModal,agreed,agreeContent  } = wine;
+  const { loading, detail, showModal, showAgreeModal,agreed,agreeContent,showApprove } = wine;
   const {
     imgDescArr=[],
     money=0,
@@ -39,6 +39,13 @@ function WineDetail({ dispatch, wine }) {
   }
   function agreePortocol() {
     dispatch({ type: 'wine/agreePortocol' })
+  }
+  function hideApprove() {
+    dispatch({ type: 'wine/hideApproveModal' })
+  }
+  function gotoCertification() {
+    dispatch({ type: 'wine/hideApproveModal' })
+    dispatch(routerRedux.push('/application/certification'))
   }
   return (
     <Fragment>
@@ -97,6 +104,19 @@ function WineDetail({ dispatch, wine }) {
       >
         <BuyForm {...buyFormProps}/>
       </Modal>
+
+      <Modal
+        visible={showApprove}
+        onClose={()=> hideApprove()}
+        transparent
+        maskClosable={false}
+        closable={false}
+        title="提示"
+        footer={[{ text: '关闭', onPress: () => { console.log('ok'); hideApprove() } },{text: '实名认证', onPress:()=>{ console.log('实名认证去'); gotoCertification();}}]}
+      >
+        还未实名认证！
+      </Modal>
+
       <ActivityIndicator animating={loading} text="加载中..." toast/>
 
       <AgreementModal showAgreement={showAgreeModal} agreed={agreed} hideAgreement={hideAgreementModal} agreePortocol={agreePortocol} agreementContent={protocolContent}/>

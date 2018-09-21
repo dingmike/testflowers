@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
 import { connect } from 'dva';
-import { 
+import {
   PullToRefresh,
   ActivityIndicator,
   NavBar,
@@ -70,15 +70,16 @@ class Recharges extends Component{
             }
           }}
         >
-          { 
+          {
             recharges.map((re,index)=>
-              <div 
-                className={styles.list} 
+              <div
+                className={styles.list}
                 key={`${re.userId}-${index}`}
               >
                 <div className={ styles.header }>
                   <p className={ styles.headerName }>{re.details}</p>
-                  <p className={ styles.headerNumber }>+{re.money}</p>
+                  {/*<p className={ styles.headerNumber }>+{re.money}</p>*/}
+                  <p className={ styles.headerName } style={{color:'#9E0F15'}}>￥ {re.cashBalance}</p>
                 </div>
                 <div className={ styles.msg }>
                   <p>订单号：{re.orderId}</p>

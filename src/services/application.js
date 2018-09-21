@@ -183,3 +183,19 @@ export async function updateAreaRatio(params) {
     params : params
   })
 }
+
+// 微信支付
+export async function wechatPay(params) {
+  return request('/wechat/pay', {
+    method : 'post',
+    data :stringify(params)
+  })
+}
+
+// 支付宝支付
+export async function aliPay(params) {
+  return request('/alipay/pay', {
+    method : 'post',
+    data :stringify(params)
+  })
+}

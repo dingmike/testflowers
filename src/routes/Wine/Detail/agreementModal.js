@@ -17,7 +17,7 @@ export default ({showAgreement, agreed, hideAgreement, agreePortocol, agreementC
     maskClosable={false}
     closable={true}
     title="购买种酒协议"
-    footer={[{ text: '关闭', onPress: () => { console.log('ok'); hideAgreement() } },{text: '同意', onPress:()=>{ console.log('tongyi'); agreePortocol();}}]}
+    footer={[{ text: '关闭', onPress: () => { console.log('ok'); hideAgreement()} },{text: '同意', onPress:()=>{ console.log('tongyi'); agreePortocol();}}]}
   >
 
 

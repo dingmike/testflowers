@@ -1,6 +1,6 @@
 import React from 'react';
 import { connect } from 'dva';
-import { NavBar, ActivityIndicator } from 'antd-mobile';
+import { NavBar, ActivityIndicator,Modal } from 'antd-mobile';
 import { StickyContainer, Sticky } from 'react-sticky';
 import messageIcon from '../../assets/message.png';
 import styles from './index.less';
@@ -19,7 +19,11 @@ function HomePage ({ dispatch, home }) {
     loading,
     rollBanner,
     scenics,
-    refers
+    refers,
+    showVersionModal,
+    showCloseBtn,
+    updateWord,
+    updateUrl
   } = home;
   const gotoScenicDetail = (id, name) => {
     dispatch(routerRedux.push({
@@ -116,6 +120,22 @@ function HomePage ({ dispatch, home }) {
         gotoRefersList={gotoRefersList}
         gotoReferDetail={gotoReferDetail}
       />
+
+      <Modal
+        visible={showVersionModal}
+        transparent
+        closable={showCloseBtn}
+        maskClosable={false}
+        onClose={()=>{dispatch({type:'home/hideUpdateVersionModal'})}}
+        title="提示"
+        footer={[{ text: '确定', onPress: () => { window.location.href=updateUrl } }]}
+      >
+        <div style={{ height: 'auto', overflow: 'scroll' }}>
+          {updateWord}
+        </div>
+      </Modal>
+
+
     </StickyContainer>
   )
 }

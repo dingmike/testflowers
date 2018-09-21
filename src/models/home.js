@@ -1,8 +1,9 @@
-import { 
-  queryBanner, 
+import {
+  queryBanner,
   queryRollBanner,
   queryScenic,
-  queryRefers
+  queryRefers,
+  updateVersion
 } from '../services/home';
 import { Toast } from 'antd-mobile';
 
@@ -13,10 +14,15 @@ export default {
     banner : [],
     rollBanner : [],
     scenics : [],
-    refers : []
+    refers : [],
+    showVersionModal: false,
+    showCloseBtn: false,
+    updateWord:'',
+    updateUrl:''
   },
   subscriptions : {
     setup({ history, dispatch }){
+      dispatch({ type : 'askUpdateVersion' })
       history.listen(({ pathname })=> {
         if(pathname === "/home") {
           dispatch({ type : 'query' })
@@ -25,6 +31,18 @@ export default {
     }
   },
   effects : {
+    *askUpdateVersion(action,{call, put}){
+      // 1:android  2: ios, 3:h5
+      let updateData = {type: 1, version: '1.0.0'}
+      const {data} = yield call(updateVersion, updateData);
+      if (data.code == 3011) { // 强制更新app版本
+        yield put({type : 'showUpdateVersionModal',payload: {updateWord:'去更新',updateUrl:data.url, showCloseBtn: false}})
+      }else if(data.code== 3012){
+        yield put({type : 'showUpdateVersionModal',payload:{updateWord:'是否去更新?',updateUrl:data.url, showCloseBtn: true}})
+      }else if(data.code == 3013){
+        yield put({type : 'showUpdateVersionModal',payload:{updateWord:data.msg, updateUrl:data.url, showCloseBtn: true}})
+      }
+    },
     *query(action, { call, put }){
       yield put({ type : 'showLoading' })
       try{
@@ -105,6 +123,27 @@ export default {
       return {
         ...state,
         loading : false
+      }
+    },
+    updateVersion(state, {payload}) {
+      return {
+        ...state,
+        version : payload
+      }
+    },
+    showUpdateVersionModal(state, {payload}){
+      return {
+        ...state,
+        showVersionModal : true,
+        updateWord:payload.updateWord,
+        updateUrl: payload.updateUrl,
+        showCloseBtn: payload.showCloseBtn
+      }
+    },
+    hideUpdateVersionModal(state){
+      return {
+        ...state,
+        showVersionModal : false
       }
     }
   }

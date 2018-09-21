@@ -40,3 +40,10 @@ export async function queryReferDetailsById(params) {
     data : stringify(params)
   })
 }
+
+export async function updateVersion(params) {
+  return request('/front/version/update', {
+    method: 'POST',
+    data : stringify(params)
+  })
+}

@@ -23,19 +23,19 @@ function BuyForm({
     <Fragment>
       <p style={{
         color : "#9D0F14"
-      }}>提交后无法修改，请确认投资的分红积分。</p>
+      }}>提交后无法修改，请确认参与的分红积分。</p>
       <List>
         <InputItem
           autoComplete="off"
-          placeholder="投资积分须为500的倍数"
+          placeholder="参与积分须为500的倍数"
           {...getFieldProps("money",{
             rules : [{
               required : true,
-              message  : "请填写你要投资的积分数"
+              message  : "请填写你要参与的积分数"
             }]
           })}
         >
-          投资积分
+          分红积分
         </InputItem>
         <InputItem
           autoComplete="off"

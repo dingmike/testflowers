@@ -165,6 +165,12 @@ function RouterConfig({ history, app }) {
     models : () => [import('./models/cash')],
     app
   })
+  // 支付宝微信充值明细
+  const ChargesPageComponent = dynamic({
+    component : () => import('./routes/Cash/Charge'),
+    models : () => [import('./models/cash')],
+    app
+  })
   // 分红积分明细
   const DividendPageComponent = dynamic({
     component : () => import('./routes/Cash/Dividend'),
@@ -266,6 +272,7 @@ function RouterConfig({ history, app }) {
           <Route path="/application/cash" exact component={CashPageComponent}/>
           <Route path="/application/cash/wines" exact component= {WinesDetailPageComponent} />
           <Route path="/application/cash/recharges" exact component= {RechargesPageComponent} />
+          <Route path="/application/cash/charge" exact component= {ChargesPageComponent} />
 
           <Route path="/application/cash/dividend" exact component= {DividendPageComponent} />
           <Route path="/application/cash/inOut" exact component= {InoutPageComponent} />

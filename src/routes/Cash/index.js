@@ -82,12 +82,18 @@ function Cash({ dispatch, cash }) {
         <p className={ styles.text }>可用现金余额（元）</p>
         <div className={ styles.money }>
           <p>{money}</p>
-          <Button
+          {/*<Button
             size="small"
             inline
             style={{ background : '#1EB788', color : "#fff"}}
             onClick={()=>dispatch(routerRedux.push('/wine'))}
-          >购买种酒</Button>
+          >购买种酒</Button>*/}
+          <Button  size="small"
+                   inline
+                   style={{ background : '#1EB788', color : "#fff"}}
+                   onClick={()=>dispatch(routerRedux.push({pathname:'/application/cash/charge'}))}>
+            充 值
+          </Button>
           <Button
             size="small"
             inline

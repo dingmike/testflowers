@@ -9,10 +9,13 @@ import {
   queryAccountName,
   transferCash,
   transferToCounts,
-  queryRecharges
+  queryRecharges,
+  wechatPay,
+  aliPay
 } from '../services/application';
 import { Toast } from 'antd-mobile';
 import { routerRedux } from 'dva/router';
+import { bridegWithPhone, setupWebViewJavascriptBridge } from '../utils/origin';
 export default {
   namespace : 'cash',
   state : {
@@ -33,7 +36,16 @@ export default {
     actual: "0.00",//实际到账金额
     tax : "0.00", //税
     formalities : "0.00",//手续费,
-    accountName : ""
+    accountName : "",
+    chargeDisabled: true,
+    choosed: 0, //默认选择支付宝
+    showPaymethod:false,
+    disabledSurePayedBtn:false,
+    chargeMoney:0,
+    payMethods:[
+      { value: 0, label: '支付宝', extra: 'details' },
+      { value: 1, label: '微信支付', extra: 'details' },
+    ]
   },
   subscriptions : {
     setup({ dispatch, history }){
@@ -351,6 +363,74 @@ export default {
         if(error) throw new Error(error)
       }
       yield put({ type : "hideLoading" })
+    },
+    *wechatPayNow({payload}, {call, put}){
+      yield put({ type : 'showLoading'})
+      try {
+        const {data : t } = yield call(wechatPay, {
+          ...payload, token : localStorage.getItem('token')
+        })
+        if(t && t.code === 200){
+          yield put({ type : "hideLoading" })
+          yield put({ type : 'hideModal' })
+          Toast.success(t.msg, 2)
+        let dataRess =  yield bridegWithPhone('loadThreePay',{
+            'pay': 'WeChat',
+            'data': t.data.sign
+          }).then((ress) => {
+            return ress;
+          })
+          if (dataRess.respCode == 0) {
+            // 支付成功跳转余额页面
+           // yield put(routerRedux.push('/application/cash'))
+           yield put(routerRedux.push('/application/cash/recharges'))
+          }else if(dataRess.respCode == -2) {
+            Toast.success('取消支付', 2)
+          }
+        }else if(t && t.code === 2001){
+          Toast.fail(t.msg,2)
+          yield put(routerRedux.push('/login'))
+        }else if(t && t.code > 200 && t.code !==2001) {
+          Toast.fail(t.msg,2)
+        }
+      }catch(error){
+        if(error) throw new Error(error)
+      }
+      yield put({ type : "hideLoading" })
+    },
+    *aliPayNow({payload}, {call, put}){
+      yield put({ type : 'showLoading'})
+      try {
+        const {data : t } = yield call(aliPay, {
+          ...payload, token : localStorage.getItem('token')
+        })
+        if(t && t.code === 200){
+          yield put({ type : "hideLoading" })
+          yield put({ type : 'hideModal' })
+          Toast.success(t.msg, 2)
+          let dataRess =  yield bridegWithPhone('loadThreePay',{
+            'pay': 'Alipay',
+            'data': t.data.sign
+          }).then((ress) => {
+            return ress;
+          })
+          if (dataRess.respCode == 0) {
+            // 支付成功跳转余额页面
+            // yield put(routerRedux.push('/application/cash'))
+            yield put(routerRedux.push('/application/cash/recharges'))
+          }else if(dataRess.respCode == -2) {
+            Toast.success('取消支付', 2)
+          }
+        }else if(t && t.code === 2001){
+          Toast.fail(t.msg,2)
+          yield put(routerRedux.push('/login'))
+        }else if(t && t.code > 200 && t.code !==2001) {
+          Toast.fail(t.msg,2)
+        }
+      }catch(error){
+        if(error) throw new Error(error)
+      }
+      yield put({ type : "hideLoading" })
     }
   },
   reducers : {
@@ -511,6 +591,37 @@ export default {
         ...state,
         showModal : false,
         showTransferModal : false,
+      }
+    },
+    disabledChargeBtn(state){
+      return {
+        ...state,
+        chargeDisabled : true
+      }
+    },
+    undisabledChargeBtn(state, {payload}){
+      return {
+        ...state,
+        chargeDisabled : false,
+        chargeMoney: payload
+      }
+    },
+    showChargeModal(state){
+      return {
+        ...state,
+        showPaymethod : true
+      }
+    },
+    hideChargeModal(state){
+      return {
+        ...state,
+        showPaymethod : false
+      }
+    },
+    payMethodChange(state,{payload}){
+      return {
+        ...state,
+        choosed: payload
       }
     }
   }

@@ -33,7 +33,7 @@ export default {
   effects : {
     *askUpdateVersion(action,{call, put}){
       // 1:android  2: ios, 3:h5
-      let updateData = {type: 1, version: '1.0.0'}
+      let updateData = {type: 2, version: '1.0.0'}
       const {data} = yield call(updateVersion, updateData);
       if (data.code == 3011) { // 强制更新app版本
         yield put({type : 'showUpdateVersionModal',payload: {updateWord:'去更新',updateUrl:data.url, showCloseBtn: false}})

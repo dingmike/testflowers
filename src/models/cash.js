@@ -383,7 +383,7 @@ export default {
           if (dataRess.respCode == 0) {
             // 支付成功跳转余额页面
            // yield put(routerRedux.push('/application/cash'))
-           yield put(routerRedux.push('/application/cash/recharges'))
+           yield put(routerRedux.push('/application'))
           }else if(dataRess.respCode == -2) {
             Toast.success('取消支付', 2)
           }
@@ -417,7 +417,7 @@ export default {
           if (dataRess.respCode == 0) {
             // 支付成功跳转余额页面
             // yield put(routerRedux.push('/application/cash'))
-            yield put(routerRedux.push('/application/cash/recharges'))
+            yield put(routerRedux.push('/application'))
           }else if(dataRess.respCode == -2) {
             Toast.success('取消支付', 2)
           }

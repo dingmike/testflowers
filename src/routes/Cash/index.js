@@ -92,14 +92,14 @@ function Cash({ dispatch, cash }) {
                    inline
                    style={{ background : '#1EB788', color : "#fff"}}
                    onClick={()=>dispatch(routerRedux.push({pathname:'/application/cash/charge'}))}>
-            充 值
+            充  值
           </Button>
           <Button
             size="small"
             inline
             style={{ background : '#cc6709', color : "#fff"}}
             onClick={()=>dispatch({type:'cash/showTransferModal',payload:"transferCounts"})}
-          >余额转换积分</Button>
+          >转积分</Button>
         </div>
       </div>
       <GraySpace size="sm"/>

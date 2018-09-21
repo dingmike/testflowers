@@ -97,6 +97,9 @@ function LoginForm({
         type="default"
         onClick={clickBackHome}
       >返回首页</Button>
+      <WhiteSpace size="lg"/>
+      <WhiteSpace size="lg"/>
+      <WhiteSpace size="lg"/>
     </WingBlank>
   )
 }

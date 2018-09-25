@@ -1,7 +1,7 @@
 import React from 'react';
 import { StickyContainer, Sticky } from 'react-sticky';
 import { connect } from 'dva';
-import { 
+import {
   NavBar,
   Icon,
   List,
@@ -59,6 +59,14 @@ function Integral({ dispatch, integral }){
       <GraySpace size="xs"/>
       <List>
         <List.Item
+          arrow="horizontal"
+          onClick={()=>dispatch(routerRedux.push({
+            pathname : '/application/integral/performanceInte'
+          }))}
+        >
+          积分收入明细
+        </List.Item>
+        <List.Item
           extra={fhIntegral}
         >
           分红积分
@@ -72,6 +80,7 @@ function Integral({ dispatch, integral }){
         >
           已投资分红积分
         </List.Item>
+
       </List>
       <GraySpace size="sm"/>
       <List>
@@ -91,19 +100,20 @@ function Integral({ dispatch, integral }){
         >
           转出积分
         </List.Item>
+
       </List>
       <div className={ styles.bottomBtn }>
         <div className={ styles.btn }>
-          <Button 
+          <Button
             type="warning"
             onClick={()=>dispatch({type:'integral/openModal'})}
           >积分转出</Button>
         </div>
       </div>
-      <Modal 
+      <Modal
         visible={showModal}
       >
-        <TransForm 
+        <TransForm
           onCloseModal={onCloseModal}
           money = {fhIntegral}
           onCheckAccountName={onCheckAccountName}

@@ -199,3 +199,11 @@ export async function aliPay(params) {
     data :stringify(params)
   })
 }
+
+// 业绩明细
+export async function performance(params) {
+  return request('/front/TeamMoney/query', {
+    method : 'post',
+    data :stringify(params)
+  })
+}

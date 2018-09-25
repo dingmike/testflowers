@@ -1,7 +1,7 @@
 import React from 'react';
-import { 
-  ActivityIndicator, 
-  NavBar, 
+import {
+  ActivityIndicator,
+  NavBar,
   Icon,
   List,
   Modal,
@@ -20,14 +20,14 @@ import DefaultImg from '../../assets/man.png';
 import QRCODE from 'qrcode.react';
 
 function Setting({ userSettings, dispatch }) {
-  const { 
+  const {
     loading,
     userInfo,
     avator,
     showCropper,
-    showEditor 
+    showEditor
   } = userSettings;
-  const { 
+  const {
     headImg,
     nickName,
     name,
@@ -52,8 +52,8 @@ function Setting({ userSettings, dispatch }) {
             style
           })=> (
             <NavBar
-              style={{ 
-                ...style, 
+              style={{
+                ...style,
                 zIndex: 5,
                 boxShadow : "0 1px 1px #ABABAB"
               }}
@@ -73,8 +73,8 @@ function Setting({ userSettings, dispatch }) {
         onClose={()=>dispatch({ type : 'userSettings/hideCropper' })}
         className = { styles.modal }
       >
-        <CustomCropper 
-          src={avator} 
+        <CustomCropper
+          src={avator}
           style={{height: document.body.offsetHeight - 46, width: '100%'}}
           ready={(e)=> {
             e.target.cropper.getCroppedCanvas().toBlob((blob)=>{
@@ -93,7 +93,7 @@ function Setting({ userSettings, dispatch }) {
             });
           }}
         />
-        <Button 
+        <Button
           type="warning"
           onClick={()=>{
             dispatch({
@@ -109,8 +109,8 @@ function Setting({ userSettings, dispatch }) {
         transparent
         title="昵称修改"
       >
-        <NickNameEditor 
-          nickName={nickName} 
+        <NickNameEditor
+          nickName={nickName}
           onClose={onEditorClose}
           onOk = {onEditorOk}
         />
@@ -121,8 +121,8 @@ function Setting({ userSettings, dispatch }) {
           <div className={ styles.extra }>
             <img src={!!headImg ? headImg : DefaultImg} alt=""/>
             <Icon type="right"/>
-            <input 
-              type="file" 
+            <input
+              type="file"
               accept="image/*"
               onChange={e=>{
                 const fromRender = new FileReader()
@@ -143,7 +143,7 @@ function Setting({ userSettings, dispatch }) {
               }}/>
           </div>
         </div>
-        <div 
+        <div
           className={styles.name}
           onClick={onEditorOpen}
         >
@@ -153,7 +153,7 @@ function Setting({ userSettings, dispatch }) {
             <Icon type="right"/>
           </div>
         </div>
-        <div 
+        <div
           className={styles.name}
           onClick={name ? ()=>null : gotoCertification}
         >
@@ -169,7 +169,7 @@ function Setting({ userSettings, dispatch }) {
             <span>{phone}</span>
           </div>
         </div>
-        <div 
+        <div
           className={styles.name}
           onClick={gotoAddressSeting}
         >
@@ -185,12 +185,12 @@ function Setting({ userSettings, dispatch }) {
             <span>{recommendName}</span>
           </div>
         </div>
-        <div 
+        <div
           className={styles.name}
           onClick={()=>{
             Modal.alert(
-              <QRCODE  
-                value={`http://118.31.40.33/#/signIn?referrer=${phone}`}
+              <QRCODE
+                value={`http://www.goegomall.cn/#/signIn?referrer=${phone}`}
                 renderAs="canvas"
                 size={200}
               />

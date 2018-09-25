@@ -107,6 +107,14 @@ function Cash({ dispatch, cash }) {
         <Item
           arrow="horizontal"
           onClick={()=>dispatch(routerRedux.push({
+            pathname : '/application/cash/performance'
+          }))}
+        >
+          收入明细
+        </Item>
+        <Item
+          arrow="horizontal"
+          onClick={()=>dispatch(routerRedux.push({
             pathname : '/application/cash/recharges'
           }))}
         >
@@ -144,6 +152,7 @@ function Cash({ dispatch, cash }) {
         >
           项目分红
         </Item>
+
 
       </List>
       <div className={ styles.bottomBtn }>

@@ -11,6 +11,7 @@ import {
   transferToCounts,
   queryRecharges,
   wechatPay,
+  performance,
   aliPay
 } from '../services/application';
 import { Toast } from 'antd-mobile';
@@ -42,6 +43,8 @@ export default {
     showPaymethod:false,
     disabledSurePayedBtn:false,
     chargeMoney:0,
+    performance:[],
+    performanceInte:[],
     payMethods:[
       { value: 0, label: '支付宝', extra: 'details' },
       { value: 1, label: '微信支付', extra: 'details' },
@@ -69,10 +72,112 @@ export default {
         if(pathname==="/application/cash/withdrawals"){
           dispatch({ type : 'queryWithdrawals' })
         }
+        if(pathname==="/application/cash/performance"){
+          dispatch({ type : 'queryPerformance' })
+        }
+        if(pathname==="/application/integral/performanceInte"){
+          dispatch({ type : 'queryPerformanceInte' })
+        }
       })
     }
   },
   effects : {
+
+
+    *queryPerformanceInte({ payload }, { call, put }){
+      yield put({ type : "showLoading" })
+      try{
+        const { data: r} = yield call(performance, {
+          token : localStorage.getItem('token'),
+          type : 2,
+          pageNo : 1,
+          pagesize : 10
+        })
+        if(r && r.code === 200){
+          yield put({ type : "queryPerformanceInteDetailsSuccess", payload : r.data })
+        }else if( r && r.code === 300){
+          Toast.fail(r.msg ,2 )
+        }else if( r && r.code ===2001){
+          Toast.fail(r.msg, 2)
+          yield put(routerRedux.push('/login'))
+        }
+      }catch(error){
+        if(error) throw new Error(error)
+      }
+      yield put({ type : "hideLoading" })
+    },
+
+    *queryMorePerformanceInte({ payload }, { call, put }){
+      yield put({ type : 'showLoading' })
+      try{
+        const { data: r } = yield call( performance,{
+          token : localStorage.getItem('token'),
+          type : 2,
+          pageNo : payload.nextPage,
+          pagesize : payload.pageSize
+        })
+        if(r && r.code === 200){
+          yield put({ type : "queryMorePerformanceInteSuccess", payload : r.data })
+        }else if( r && r.code === 300){
+          Toast.fail(r.msg ,2 )
+        }else if( r && r.code ===2001){
+          Toast.fail(r.msg, 2)
+          yield put(routerRedux.push('/login'))
+        }
+      }catch(error){
+        if(error) throw new Error(error);
+      }
+      yield put({ type : 'hideLoading' })
+    },
+
+    *queryPerformance({ payload }, { call, put }){
+      yield put({ type : "showLoading" })
+      try{
+        const { data: r} = yield call(performance, {
+          token : localStorage.getItem('token'),
+          type : 1,
+          pageNo : 1,
+          pagesize : 10
+        })
+        if(r && r.code === 200){
+          yield put({ type : "queryPerformanceDetailsSuccess", payload : r.data })
+        }else if( r && r.code === 300){
+          Toast.fail(r.msg ,2 )
+        }else if( r && r.code ===2001){
+          Toast.fail(r.msg, 2)
+          yield put(routerRedux.push('/login'))
+        }
+      }catch(error){
+        if(error) throw new Error(error)
+      }
+      yield put({ type : "hideLoading" })
+    },
+
+    //queryMore
+    *queryMorePerformance({ payload }, { call, put }){
+      yield put({ type : 'showLoading' })
+      try{
+        const { data: r } = yield call( performance,{
+          token : localStorage.getItem('token'),
+          type : 1,
+          pageNo : payload.nextPage,
+          pagesize : payload.pageSize
+        })
+        if(r && r.code === 200){
+          yield put({ type : "queryMorePerformanceSuccess", payload : r.data.content })
+        }else if( r && r.code === 300){
+          Toast.fail(r.msg ,2 )
+        }else if( r && r.code ===2001){
+          Toast.fail(r.msg, 2)
+          yield put(routerRedux.push('/login'))
+        }
+      }catch(error){
+        if(error) throw new Error(error);
+      }
+      yield put({ type : 'hideLoading' })
+    },
+
+
     *queryWinesDetails({ payload }, { call, put }){
       yield put({ type : "showLoading" })
       try{
@@ -458,6 +563,56 @@ export default {
       return {
         ...state,
         wines : payload
+      }
+    },
+    queryPerformanceInteDetailsSuccess(state,{ payload }){
+      return {
+        ...state,
+        performanceInte : payload.content,
+        pagination : {
+          isLast : payload.last,
+          page : payload.numberOfElements,
+          pageSize : payload.size,
+          total : payload.totalPages
+        }
+      }
+    },
+    queryMorePerformanceInteSuccess(state, { payload }){
+      return {
+        ...state,
+        performanceInte : state.performanceInte.concat(payload.content),
+        pagination : {
+          isLast : payload.last,
+          page : payload.numberOfElements,
+          pageSize : payload.size,
+          total : payload.totalPages
+        }
+      }
+    },
+    queryPerformanceDetailsSuccess(state,{ payload }){
+      return {
+        ...state,
+        performance : payload.content,
+        pagination : {
+          isLast : payload.last,
+          page : payload.numberOfElements,
+          pageSize : payload.size,
+          total : payload.totalPages
+        }
+      }
+    },
+
+    //queryMorePerformanceSuccess
+    queryMorePerformanceSuccess(state, { payload }){
+      return {
+        ...state,
+        performance : state.performance.concat(payload.content),
+        pagination : {
+          isLast : payload.last,
+          page : payload.numberOfElements,
+          pageSize : payload.size,
+          total : payload.totalPages
+        }
       }
     },
     queryRechargesSuccess(state,{ payload }){

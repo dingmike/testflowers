@@ -165,6 +165,18 @@ function RouterConfig({ history, app }) {
     models : () => [import('./models/cash')],
     app
   })
+  // 分成业绩明细
+  const PerformancePageComponent = dynamic({
+    component : () => import('./routes/Cash/PerformanceDetail'),
+    models : () => [import('./models/cash')],
+    app
+  })
+  // 分成业绩明细
+  const PerformanceIntePageComponent = dynamic({
+    component : () => import('./routes/Integral/PerformanceDetail'),
+    models : () => [import('./models/cash')],
+    app
+  })
   // 支付宝微信充值明细
   const ChargesPageComponent = dynamic({
     component : () => import('./routes/Cash/Charge'),
@@ -273,6 +285,8 @@ function RouterConfig({ history, app }) {
           <Route path="/application/cash/wines" exact component= {WinesDetailPageComponent} />
           <Route path="/application/cash/recharges" exact component= {RechargesPageComponent} />
           <Route path="/application/cash/charge" exact component= {ChargesPageComponent} />
+          <Route path="/application/cash/performance" exact component= {PerformancePageComponent} />
+
 
           <Route path="/application/cash/dividend" exact component= {DividendPageComponent} />
           <Route path="/application/cash/inOut" exact component= {InoutPageComponent} />
@@ -285,6 +299,8 @@ function RouterConfig({ history, app }) {
           <Route path="/application/integral/inIntegral" exact component= {InIntegralPageComponent} />
           <Route path="/application/integral/outIntegral" exact component= {OutIntegralPageComponent} />
           <Route path="/application/integral/invests" exact component= {InvestsPageComponent} />
+          <Route path="/application/integral/performanceInte" exact component= {PerformanceIntePageComponent} />
+
 
           <Route path="/application/investment" exact component= {InvestmentPageComponent} />
           <Route path="/application/investment/detail" exact component= {InvestmentDetailPageComponent} />

@@ -1,8 +1,8 @@
 import React from "react";
 import { connect } from "dva";
-import { 
+import {
   NavBar,
-  // Icon, 
+  // Icon,
   Tabs,
   ActivityIndicator,
   Button
@@ -30,7 +30,7 @@ const tabsProps = {
     border : "1px solid #CF9257"
   }
 }
-const DetailListItem = ({ img, name, largessIntegral, context, standard, gotoDetail, id }) => {
+const DetailListItem = ({ img, name, largessIntegral, context,money, standard, gotoDetail, id }) => {
   return (
     <div className={ styles.detailItem } style={{
       width : window.screen.width - 100,
@@ -39,12 +39,13 @@ const DetailListItem = ({ img, name, largessIntegral, context, standard, gotoDet
       <img src={img} alt={name}/>
       <div className={ styles.dContent}>
         <h4 className={styles.h4}>{name}</h4>
-        <p className={styles.dTitle}><span>酒量：{standard} KG</span><span>赠送积分：{largessIntegral}</span></p>
+        <p className={styles.dTitle}><span>规格：{standard} KG/坛</span><span>价格：{money} 元</span></p>
+        <p className={styles.dTitle}><span>赠送积分：{largessIntegral}</span></p>
         <p className={ styles.info }>{`${context.substr(0,60)}...`}</p>
         <div className={ styles.btn }>
-          <Button 
-            type="warning" 
-            inline 
+          <Button
+            type="warning"
+            inline
             size="small"
             onClick={()=>gotoDetail(id)}
           >购买</Button>
@@ -54,7 +55,7 @@ const DetailListItem = ({ img, name, largessIntegral, context, standard, gotoDet
   )
 }
 
-function Wine({ 
+function Wine({
   dispatch,
   wine
  }){
@@ -82,13 +83,13 @@ function Wine({
                 style={{
                   boxShadow : "0 1px 1px #ABABAB"
                 }}
-                rightContent={ 
+                rightContent={
                   <img src={messageIcon} alt="message" className={ styles.badgeImg } onClick={()=>dispatch(routerRedux.push('/notice'))}/>
                 }
               >
                 花下种酒
               </NavBar>
-              <Tabs 
+              <Tabs
                 tabs={wineTabs}
                 {...tabsProps}
                 swipeable={false}

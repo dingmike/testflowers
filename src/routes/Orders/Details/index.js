@@ -1,8 +1,8 @@
 import React from 'react';
 import { StickyContainer, Sticky } from 'react-sticky';
-import { 
-  NavBar, 
-  Icon, 
+import {
+  NavBar,
+  Icon,
   // List,
   Carousel,
   Button,
@@ -21,20 +21,21 @@ import Transfer from './transfer';
 // const Item = List.Item;
 
 function OrderDetail({ orders, dispatch }){
-  const { 
-    detail, 
-    loading, 
-    showModal, 
-    modalType, 
-    address, 
+  const {
+    detail,
+    loading,
+    showModal,
+    modalType,
+    address,
     showAddress,
-    popShow 
+    popShow
   } = orders;
-  const { 
-    name, 
-    imgDescArr=[], 
+  const {
+    name,
+    imgDescArr=[],
     giveIntegral,
     number,
+    payMoney,
     orderId,
     status,
     orderStatus,
@@ -119,11 +120,11 @@ function OrderDetail({ orders, dispatch }){
       >
         {
           imgDescArr.map((b,i)=>
-            <Image  
-              key={`图片-${i}`} 
+            <Image
+              key={`图片-${i}`}
               scale={10/23}
               src={b}
-              alt={`图片-${i}}`}
+              alt={`图片-${i}`}
             />
           )
         }
@@ -131,10 +132,10 @@ function OrderDetail({ orders, dispatch }){
       <GraySpace size="xs"/>
       <div className={ styles.head }>
         <h4 className={ styles.h4 }>{detail.name}</h4>
-        {orderStatus === 1 && transferenceType !== 2? 
-          <Button 
-            type="primary" 
-            inline 
+        {orderStatus === 1 && transferenceType !== 2?
+          <Button
+            type="primary"
+            inline
             size="small"
             onClick={()=>dispatch({
               type : 'orders/showModal',
@@ -150,8 +151,12 @@ function OrderDetail({ orders, dispatch }){
             <span className={ styles.extra }>{number}坛</span>
           </div>
           <div className={ styles.item }>
-            <span>酒量规格</span>
-            <span className={ styles.extra }>{specs}kg</span>
+            <span>支付金额</span>
+            <span className={ styles.extra }>{payMoney}元</span>
+          </div>
+          <div className={ styles.item }>
+            <span>规格</span>
+            <span className={ styles.extra }>{specs}kg/坛</span>
           </div>
           <div className={ styles.item }>
             <span>赠送分红积分</span>
@@ -173,19 +178,19 @@ function OrderDetail({ orders, dispatch }){
             orderStatus === 3 ?
             <div className={ styles.item }>
               <span>提货方式</span>
-              { 
-                mailType === 1 ? 
-                  <span className={ styles.extra }>自提</span> : 
+              {
+                mailType === 1 ?
+                  <span className={ styles.extra }>自提</span> :
                   <div>
                     {
-                      !!expressNumber ? 
-                      <span 
+                      !!expressNumber ?
+                      <span
                         className={ styles.extra }
                         onClick={()=>dispatch(routerRedux.push({
                           pathname : "/orders/logistics",
                           search : `no=${expressNumber}`
                         }))}
-                      >查看物流<Icon type="right"/></span> : 
+                      >查看物流<Icon type="right"/></span> :
                       <span className={ styles.extra }>暂无物流信息</span>
                     }
                   </div>
@@ -195,7 +200,7 @@ function OrderDetail({ orders, dispatch }){
           {
             orderStatus === 0 ? null : <div className={ styles.item }>
             <span>窖藏详情</span>
-            <span 
+            <span
               className={ styles.extra }
               onClick={()=> dispatch({
                 type : 'orders/showModal',
@@ -219,7 +224,7 @@ function OrderDetail({ orders, dispatch }){
               </div>
             </div> : null
         }
-      { orderStatus === 0 ? 
+      { orderStatus === 0 ?
         <div className={ styles.btn }>
           <Button type="warning" onClick={
               ()=>dispatch(routerRedux.push({
@@ -229,12 +234,12 @@ function OrderDetail({ orders, dispatch }){
             }>再次购买</Button>
         </div>
          : null }
-      { 
-        orderStatus === 1 && transferenceType !==2? 
+      {
+        orderStatus === 1 && transferenceType !==2?
           <div className={ styles.btn} >
             <div className={ styles.inlineBox}>
               <div className={ styles.inline }>
-                <Button 
+                <Button
                   className={ styles.again }
                   onClick={()=> dispatch({
                     type : 'orders/showModal',
@@ -251,7 +256,7 @@ function OrderDetail({ orders, dispatch }){
                 }>再次购买</Button>
               </div>
             </div>
-          </div> : 
+          </div> :
           null
       }
       <ActivityIndicator text="数据同步中..." animating={loading} toast/>
@@ -260,9 +265,9 @@ function OrderDetail({ orders, dispatch }){
         popup={modalType!=="depot"}
         onClose={closeModal}
       >
-        { 
-          modalType === "harvest" ? 
-            <HarvestForm 
+        {
+          modalType === "harvest" ?
+            <HarvestForm
               detail={detail}
               closeModal={closeModal}
               address={address}
@@ -274,13 +279,13 @@ function OrderDetail({ orders, dispatch }){
               showPop={()=>dispatch({type : 'orders/showPop' })}
               hidePop={()=>dispatch({type : 'orders/hidePop' })}
               onOpen={onOpen}
-            /> : 
-              modalType === "depot" ? 
-              <Depot 
+            /> :
+              modalType === "depot" ?
+              <Depot
                 closeModal={closeModal}
                 {...depotProps}
-              /> 
-                : 
+              />
+                :
               <Transfer {...transferProps}/>
         }
       </Modal>

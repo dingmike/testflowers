@@ -14,7 +14,7 @@ import { routerRedux } from 'dva/router';
 import BuyForm from './buyForm';
 
 function WineDetail({ dispatch, wine }) {
-  const { loading, detail, showModal, showAgreeModal,agreed,agreeContent,showApprove } = wine;
+  const { loading, detail, showModal, showAgreeModal,agreed,agreeContent,showApprove,payMethods,choosed } = wine;
   const {
     imgDescArr=[],
     money=0,
@@ -29,8 +29,13 @@ function WineDetail({ dispatch, wine }) {
   const {protocolContent,type} = agreeContent;
   const buyFormProps = {
     money,
+    payMethods,
+    choosed,
     id,
-    onOk: (opt)=> dispatch({ type : "wine/buyWine", payload : opt })
+    onOk: (opt)=> dispatch({ type : "wine/buyWine", payload : opt }),
+    changePayMethod: (value)=>dispatch({type:"wine/payMethodChange",payload: value}),
+    onOkAlipay:(params)=>dispatch({type:"wine/aliPayNow",payload: params}),
+    onOkWechatPay:(params)=>dispatch({type:"wine/wechatPayNow",payload: params}),
   }
 
 
@@ -63,8 +68,12 @@ function WineDetail({ dispatch, wine }) {
       </div>
       <GraySpace size="xs"/>
       <div className={ styles.list }>
-        <span>酒量规格</span>
-        <span>{standard}kg</span>
+        <span>规格</span>
+        <span>{standard}kg/坛</span>
+      </div>
+      <div className={ styles.list }>
+        <span>价格</span>
+        <span>{money} 元</span>
       </div>
       <div className={ styles.list }>
         <span>赠送分红积分</span>

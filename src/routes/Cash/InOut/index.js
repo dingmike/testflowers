@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
 import { connect } from 'dva';
-import { 
+import {
   PullToRefresh,
   ActivityIndicator,
   NavBar,
@@ -70,10 +70,10 @@ class InOut extends Component{
             }
           }}
         >
-          { 
+          {
             inOut.map((re,index)=>
-              <div 
-                className={styles.list} 
+              <div
+                className={styles.list}
                 key={`${re.userId}-${index}`}
               >
                 <div className={ styles.header }>

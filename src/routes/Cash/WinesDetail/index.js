@@ -1,7 +1,7 @@
 import React from 'react';
 
 import { StickyContainer, Sticky } from 'react-sticky';
-import { 
+import {
   NavBar,
   Icon,
   ActivityIndicator
@@ -13,10 +13,20 @@ import styles from './index.less';
 
 function WinesDetail({ dispatch, cash }){
   const {
-    wines, 
+    wines,
     loading
   } = cash;
-  
+
+  function typeOptions(type) {
+    if(type==1){
+      return '现金余额'
+    }else if(type==2){
+      return '微信支付'
+    }else {
+      return '支付宝'
+    }
+  }
+
   return (
     <StickyContainer>
       <Sticky>
@@ -45,13 +55,17 @@ function WinesDetail({ dispatch, cash }){
       {
         wines.length > 0 ? wines.map(
           (wine,index)=>
-            <div 
-              className={styles.list} 
+            <div
+              className={styles.list}
               key={`${wine.id}-${index}`}
             >
               <div className={ styles.header }>
                 <p className={ styles.headerName }>{wine.detail}</p>
-                <p className={ styles.headerNumber }>{wine.type===1?"+": "-"}{wine.money}</p>
+                <p className={ styles.headerNumber }>{wine.inOut===1?"+": "-"}{wine.money}</p>
+              </div>
+              <div className={ styles.msg }>
+                <p className={ styles.headerName }>支付方式</p>
+                <p className={ styles.headerNumber }>{typeOptions(wine.type)}</p>
               </div>
               <div className={ styles.msg }>
                 <p>订单号：{wine.orderId}</p>
@@ -60,7 +74,7 @@ function WinesDetail({ dispatch, cash }){
             </div>
         ) : <p className={ styles.noData }>没有相关数据</p>
       }
-      
+
     </StickyContainer>
   )
 }

@@ -184,7 +184,7 @@ export async function updateAreaRatio(params) {
   })
 }
 
-// 微信支付
+// 微信支付充值
 export async function wechatPay(params) {
   return request('/wechat/pay', {
     method : 'post',
@@ -192,13 +192,15 @@ export async function wechatPay(params) {
   })
 }
 
-// 支付宝支付
+// 支付宝支付充值
 export async function aliPay(params) {
   return request('/alipay/pay', {
     method : 'post',
     data :stringify(params)
   })
 }
+
+
 
 // 业绩明细
 export async function performance(params) {

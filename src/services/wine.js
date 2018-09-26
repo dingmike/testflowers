@@ -64,3 +64,18 @@ export async function orderLogistics(params) {
     data : stringify(params)
   })
 }
+// 微信支付buy
+export async function wechatPayBuy(params) {
+  return request('/wechat/payment', {
+    method : 'post',
+    data :stringify(params)
+  })
+}
+
+// 支付宝支付buy
+export async function aliPayBuy(params) {
+  return request('/alipay/payment', {
+    method : 'post',
+    data :stringify(params)
+  })
+}

@@ -1,8 +1,9 @@
 import { queryClassify } from '../services/crowd';
-import { queryByCategoryId, queryWineDetail, buyWine, queryAgreePortocol } from '../services/wine';
+import { queryByCategoryId, queryWineDetail, buyWine, queryAgreePortocol, aliPayBuy, wechatPayBuy } from '../services/wine';
 import { Toast } from 'antd-mobile'
 import { parse } from 'qs';
 import { routerRedux } from 'dva/router';
+import { bridegWithPhone } from '../utils/origin';
 export default {
   namespace : 'wine',
   state : {
@@ -14,7 +15,13 @@ export default {
     showAgreeModal: false,
     agreed: false, // 默认不同意协议
     agreeContent:'',
-    showApprove: false
+    showApprove: false,
+    choosed: 0, //默认选择支付宝
+    payMethods:[
+      { value: 0, label: '支付宝', extra: 'details' },
+      { value: 1, label: '微信支付', extra: 'details' },
+      { value: 2, label: '余额支付', extra: 'details' },
+    ]
   },
   subscriptions : {
     setup({ dispatch, history }){
@@ -36,6 +43,74 @@ export default {
     }
   },
   effects : {
+    *wechatPayNow({payload}, {call, put}){
+      yield put({ type : 'showLoading'})
+      try {
+        const {data : t } = yield call(wechatPayBuy, {
+          ...payload, token : localStorage.getItem('token')
+        })
+        if(t && t.code === 200){
+          yield put({ type : "hideLoading" })
+          yield put({ type : 'hideModal' })
+          Toast.success(t.msg, 2)
+          let dataRess =  yield bridegWithPhone('loadThreePay',{
+            'pay': 'WeChat',
+            'data': t.data.sign
+          }).then((ress) => {
+            return ress;
+          })
+          if (dataRess.respCode == 0) {
+            // 支付成功跳转余额页面
+            // yield put(routerRedux.push('/application/cash'))
+            yield put(routerRedux.push('/application/orders'))
+          }else if(dataRess.respCode == -2) {
+            Toast.success('取消支付', 2)
+          }
+        }else if(t && t.code === 2001){
+          Toast.fail(t.msg,2)
+          yield put(routerRedux.push('/login'))
+        }else if(t && t.code > 200 && t.code !==2001) {
+          Toast.fail(t.msg,2)
+        }
+      }catch(error){
+        if(error) throw new Error(error)
+      }
+      yield put({ type : "hideLoading" })
+    },
+    *aliPayNow({payload}, {call, put}){
+      yield put({ type : 'showLoading'})
+      try {
+        const {data : t } = yield call(aliPayBuy, {
+          ...payload, token : localStorage.getItem('token')
+        })
+        if(t && t.code === 200){
+          yield put({ type : "hideLoading" })
+          yield put({ type : 'hideModal' })
+          Toast.success(t.msg, 2)
+          let dataRess =  yield bridegWithPhone('loadThreePay',{
+            'pay': 'Alipay',
+            'data': t.data.sign
+          }).then((ress) => {
+            return ress;
+          })
+          if (dataRess.respCode == 0) {
+            // 支付成功跳转余额页面
+            // yield put(routerRedux.push('/application/cash'))
+            yield put(routerRedux.push('/application/orders'))
+          }else if(dataRess.respCode == -2) {
+            Toast.success('取消支付', 2)
+          }
+        }else if(t && t.code === 2001){
+          Toast.fail(t.msg,2)
+          yield put(routerRedux.push('/login'))
+        }else if(t && t.code > 200 && t.code !==2001) {
+          Toast.fail(t.msg,2)
+        }
+      }catch(error){
+        if(error) throw new Error(error)
+      }
+      yield put({ type : "hideLoading" })
+    },
     *queryClassify({ payload }, { call, put }){
       yield put({ type : 'showLoading' })
       try{
@@ -214,6 +289,12 @@ export default {
       return {
         ...state,
         showApprove : true,
+      }
+    },
+    payMethodChange(state,{payload}){
+      return {
+        ...state,
+        choosed: payload
       }
     }
   }

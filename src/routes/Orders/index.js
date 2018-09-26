@@ -1,7 +1,7 @@
 import React from 'react';
 
-import { 
-  StickyContainer, 
+import {
+  StickyContainer,
   Sticky,
 } from 'react-sticky';
 import {
@@ -24,10 +24,10 @@ const tabsProps = {
     border : "none"
   }
 }
-const DetailListItem = ({ img, name, largessIntegral, context, standard,  id, showDetail, orderId }) => {
+const DetailListItem = ({ img, name, largessIntegral, context, standard,  id, showDetail, orderId,money }) => {
   return (
-    <div 
-      className={ styles.detailItem } 
+    <div
+      className={ styles.detailItem }
       style={{
         width : window.screen.width - 100,
         height : document.body.scrollHeight - 150
@@ -36,12 +36,13 @@ const DetailListItem = ({ img, name, largessIntegral, context, standard,  id, sh
       <img src={img} alt={name}/>
       <div className={ styles.dContent}>
         <h4 className={styles.h4}>{name}</h4>
-        <p className={styles.dTitle}><span>酒量：{standard} KG</span><span>赠送分红积分：{largessIntegral}</span></p>
+        <p className={styles.dTitle}><span>规格：{standard} KG/坛</span><span>价格：{money} 元</span></p>
+        <p className={styles.dTitle}><span>赠送分红积分：{largessIntegral}</span></p>
         <p className={ styles.info }>{`${context.substr(0,60)}...`}</p>
         <div className={ styles.btn }>
-          <Button 
-            type="warning" 
-            inline 
+          <Button
+            type="warning"
+            inline
             size="small"
             onClick={()=>showDetail(orderId)}
           >查看</Button>
@@ -53,11 +54,11 @@ const DetailListItem = ({ img, name, largessIntegral, context, standard,  id, sh
 
 const DefaultTabBar = Tabs.DefaultTabBar;
 function Orders({ dispatch, orders }) {
-  const { 
-    all=[], 
-    stay=[], 
-    dispose=[], 
-    out=[], 
+  const {
+    all=[],
+    stay=[],
+    dispose=[],
+    out=[],
     apply=[],
     complete=[],
     loading,
@@ -105,7 +106,7 @@ function Orders({ dispatch, orders }) {
       <div className={ styles.content }>
         {
           tab.children.length > 0 ? tab.children.map((t,index)=>
-            <DetailListItem {...t} showDetail={showDetail} key={t.orderId}/>) : 
+            <DetailListItem {...t} showDetail={showDetail} key={t.orderId}/>) :
             <div className={styles.listInfo}>
               {
                 loading ? <div className={ styles.searching }><Icon type="search" style={{
@@ -141,7 +142,7 @@ function Orders({ dispatch, orders }) {
           )
         }
       </Sticky>
-      <Tabs 
+      <Tabs
         tabs={orderTabs}
         {...tabsProps}
         swipeable={false}

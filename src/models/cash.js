@@ -288,7 +288,7 @@ export default {
         if(r && r.code === 200){
           yield put({ type : "queryInOutSuccess", payload : r.data })
         }else if( r && r.code === 300){
-          Toast.fail(r.msg ,2 )
+          Toast.fail(r.msg ,2)
         }else if( r && r.code ===2001){
           Toast.fail(r.msg, 2)
           yield put(routerRedux.push('/login'))

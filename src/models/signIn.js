@@ -50,7 +50,7 @@ export default {
         if(sn && sn.code === 200) {
           Toast.success(sn.msg, 2)
           // h5页面跳转到蒲公英下载app页面
-        window.open("https://www.pgyer.com/d2HP")
+        window.open("https://www.pgyer.com/tfuy")
         // // app跳转到登陆界面
           // yield put(routerRedux.replace('/login'))
         }else if(sn && sn.code ===300) {

@@ -123,7 +123,7 @@ function WineDetail({ dispatch, wine }) {
         title="提示"
         footer={[{ text: '关闭', onPress: () => { console.log('ok'); hideApprove() } },{text: '实名认证', onPress:()=>{ console.log('实名认证去'); gotoCertification();}}]}
       >
-        还未实名认证！
+        购买成功去实名认证！
       </Modal>
 
       <ActivityIndicator animating={loading} text="加载中..." toast/>

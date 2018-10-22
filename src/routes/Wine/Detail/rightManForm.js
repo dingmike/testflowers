@@ -17,6 +17,7 @@ import GraySpace from '../../../components/GraySpace'
 const Item = List.Item;
 const RadioItem = Radio.RadioItem;
 const prompt = Modal.prompt;
+const Brief = Item.Brief;
 // 通过自定义 moneyKeyboardWrapProps 修复虚拟键盘滚动穿透问题
 const isIPhone = new RegExp('\\biPhone\\b|\\biPod\\b', 'i').test(window.navigator.userAgent);
 let moneyKeyboardWrapProps;
@@ -27,12 +28,15 @@ if (isIPhone) {
 }
 
 function RightManForm({
-                        phone
+                        phone,
+  username,
+  userPhone,
+  userAddress
 }){
   return (
     <List>
       <Item extra={''}>输入所有权人信息</Item>
-      <InputItem
+   {/*   <InputItem
         defaultValue={""}
         placeholder="所有权人姓名"
         clear
@@ -48,18 +52,23 @@ function RightManForm({
         moneyKeyboardWrapProps={moneyKeyboardWrapProps}
       >电话号码</InputItem>
 
-    {/*  <InputItem
-        placeholder="start from left"
-        clear
-        moneyKeyboardAlign="left"
-        moneyKeyboardWrapProps={moneyKeyboardWrapProps}
-      >所有权人地址</InputItem>*/}
       <TextareaItem
-        title="地址"
-        placeholder="所有权人收件地址"
+        title="证书寄送地址"
+        placeholder="证书寄送地址"
         data-seed="logId"
         autoHeight
-      />
+      />*/}
+
+      <Item
+        arrow="horizontal"
+        multipleLine
+        thumb="https://zos.alipayobjects.com/rmsportal/dNuvNrtqUztHCwM.png"
+        onClick={() => {console.log("ok")}}
+        platform="android"
+      >
+        姓名: {username},联系电话：{userPhone}<Brief>证书寄送地址：{userAddress}</Brief>
+      </Item>
+
       <GraySpace />
     </List>
   )

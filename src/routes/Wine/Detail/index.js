@@ -40,6 +40,9 @@ function WineDetail({ dispatch, wine }) {
   }
   const rightManInfo = {
     phone:'phone',
+    username: 'mkddd',
+    userPhone: '13320889545',
+    userAddress: 'fasdfasdfasdfasdfas'
   }
 
 

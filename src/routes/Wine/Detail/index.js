@@ -12,6 +12,7 @@ import AgreementModal from './agreementModal';
 import styles from './index.less';
 import { routerRedux } from 'dva/router';
 import BuyForm from './buyForm';
+import RightManForm from './rightManForm';
 
 function WineDetail({ dispatch, wine }) {
   const { loading, detail, showModal, showAgreeModal,agreed,agreeContent,showApprove,payMethods,choosed } = wine;
@@ -36,6 +37,9 @@ function WineDetail({ dispatch, wine }) {
     changePayMethod: (value)=>dispatch({type:"wine/payMethodChange",payload: value}),
     onOkAlipay:(params)=>dispatch({type:"wine/aliPayNow",payload: params}),
     onOkWechatPay:(params)=>dispatch({type:"wine/wechatPayNow",payload: params}),
+  }
+  const rightManInfo = {
+    phone:'phone',
   }
 
 
@@ -111,8 +115,13 @@ function WineDetail({ dispatch, wine }) {
         animationType="slide-up"
         onClose={()=>dispatch({ type: 'wine/hideModal' })}
       >
+        <RightManForm {...rightManInfo}/>
         <BuyForm {...buyFormProps}/>
+
       </Modal>
+      {/*所有权人信息*/}
+
+
 
       <Modal
         visible={showApprove}

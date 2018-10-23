@@ -1,5 +1,5 @@
 import { queryClassify } from '../services/crowd';
-import { queryByCategoryId, queryWineDetail, buyWine, queryAgreePortocol, aliPayBuy, wechatPayBuy } from '../services/wine';
+import { queryByCategoryId, queryWineDetail, buyWine, queryAgreePortocol, aliPayBuy, wechatPayBuy, queryAgreeAddress } from '../services/wine';
 import { Toast } from 'antd-mobile'
 import { parse } from 'qs';
 import { routerRedux } from 'dva/router';
@@ -17,6 +17,17 @@ export default {
     agreeContent:'',
     showApprove: false,
     choosed: 0, //默认选择支付宝
+    agreementAddress:{
+      addressId: '',
+      userId: '',
+      userName: "",
+      phone: "",
+      province: "",
+      city: "",
+      dist: "",
+      detailedAddress: "",
+      isDefault: ''
+    }, //寄件地址
     payMethods:[
       { value: 0, label: '支付宝', extra: 'details' },
       { value: 1, label: '微信支付', extra: 'details' },
@@ -37,6 +48,9 @@ export default {
           });
           dispatch({
             type : 'queryAgreeContentByType'
+          });
+          dispatch({
+            type : 'queryAddress'
           })
         }
       })
@@ -178,6 +192,37 @@ export default {
       yield put({ type : 'hideLoading' })
     },
 
+    // 查询寄件地址
+    *queryAddress({ payload }, { call, put }){
+      yield put({ type : 'showLoading' })
+      const { data : d } = yield call(queryAgreeAddress, { token : localStorage.getItem('token') });
+      if(d && d.code === 200){
+        console.log(d.data)
+        if(d.data!==null){
+          d.data.addressId=d.data.id;
+          yield put({
+            type : "queryAddressContent",
+            payload : d.data
+          })
+        }else{
+          yield put({
+            type : "queryAddressContent",
+            payload : {  addressId: '',
+              userId: '',
+              userName: "",
+              phone: "",
+              province: "",
+              city: "",
+              dist: "",
+              detailedAddress: "",
+              isDefault: ''}
+          })
+        }
+      }else if( d && d.code === 300){
+        Toast.fail(d.msg ,2 )
+      }
+      yield put({ type : 'hideLoading' })
+    },
 
     *buyWine({ payload }, { call, put }){
       yield put({ type : 'showLoading' })
@@ -224,6 +269,13 @@ export default {
       return {
         ...state,
         agreeContent: payload
+      }
+    },
+
+    queryAddressContent(state, {payload}){
+      return {
+        ...state,
+        agreementAddress: payload
       }
     },
 

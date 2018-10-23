@@ -32,13 +32,14 @@ function BuyForm({
     validateFields,
     getFieldError
   }, payMethods,
-                   choosed,
-                   changePayMethod,
+     choosed,
+     changePayMethod,
   money=0,
   id,
+  addressId,
   onOk,
-                   onOkAlipay,
-                   onOkWechatPay
+  onOkAlipay,
+  onOkWechatPay
 }){
   return (
     <List>
@@ -108,6 +109,7 @@ function BuyForm({
                       payPassWord : MD5(password).toString(),
                       money : getFieldValue('num') * money,
                       productId : id,
+                      droitAddressId: addressId,
                       num : values.num
                     }) }},
                   ],
@@ -117,12 +119,14 @@ function BuyForm({
                 onOkAlipay({
                   money : getFieldValue('num') * money,
                   productId : id,
+                  droitAddressId: addressId,
                   num : values.num
                 })
               }else if(choosed===1){ // 微信支付
                 onOkWechatPay({
                   money : getFieldValue('num') * money,
                   productId : id,
+                  droitAddressId: addressId,
                   num : values.num
                 })
               }

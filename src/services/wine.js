@@ -23,6 +23,15 @@ export async function queryAgreePortocol(params) {
 }
 
 
+// 查询 寄件地址
+export async function queryAgreeAddress(params) {
+  return request("/front/ReceivingAddress/queryByAddress", {
+    method : 'get',
+    params : params
+  })
+}
+
+
 export async function buyWine(params) {
   return request('/front/LiquorProduct/buy', {
     method : 'POST',

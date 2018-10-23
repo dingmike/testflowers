@@ -15,7 +15,7 @@ import BuyForm from './buyForm';
 import RightManForm from './rightManForm';
 
 function WineDetail({ dispatch, wine }) {
-  const { loading, detail, showModal, showAgreeModal,agreed,agreeContent,showApprove,payMethods,choosed } = wine;
+  const { loading, detail, agreementAddress, showModal, showAgreeModal,agreed,agreeContent,showApprove,payMethods,choosed, } = wine;
   const {
     imgDescArr=[],
     money=0,
@@ -27,22 +27,23 @@ function WineDetail({ dispatch, wine }) {
     imgDesc
   } = detail;
 
+  const {addressId,userName,phone,province,city,dist,detailedAddress} = agreementAddress;
+
   const {protocolContent,type} = agreeContent;
   const buyFormProps = {
     money,
     payMethods,
     choosed,
     id,
+    addressId,
     onOk: (opt)=> dispatch({ type : "wine/buyWine", payload : opt }),
     changePayMethod: (value)=>dispatch({type:"wine/payMethodChange",payload: value}),
     onOkAlipay:(params)=>dispatch({type:"wine/aliPayNow",payload: params}),
     onOkWechatPay:(params)=>dispatch({type:"wine/wechatPayNow",payload: params}),
   }
   const rightManInfo = {
-    phone:'phone',
-    username: 'mkddd',
-    userPhone: '13320889545',
-    userAddress: 'fasdfasdfasdfasdfas'
+    addressId,userName,phone,province,city,dist,detailedAddress,
+    onDirect:()=>dispatch(routerRedux.push('/application/address'))
   }
 
 
@@ -123,9 +124,6 @@ function WineDetail({ dispatch, wine }) {
 
       </Modal>
       {/*所有权人信息*/}
-
-
-
       <Modal
         visible={showApprove}
         onClose={()=> hideApprove()}

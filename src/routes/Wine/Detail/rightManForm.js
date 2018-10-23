@@ -13,6 +13,7 @@ import {
 import { createForm } from 'rc-form';
 import { MD5 } from "crypto-js"
 import GraySpace from '../../../components/GraySpace'
+import Address from './address';
 
 const Item = List.Item;
 const RadioItem = Radio.RadioItem;
@@ -27,12 +28,29 @@ if (isIPhone) {
   };
 }
 
+function AddressComploent() {
+
+  // return(
+  // <Brief>姓名: {userName}{addressId}, 联系电话：{phone}</Brief>
+  // <Brief>证书寄送地址：{province},{city},{dist}{detailedAddress}</Brief>
+// )
+
+}
+
+
 function RightManForm({
-                        phone,
-  username,
-  userPhone,
-  userAddress
+                        addressId,userName,phone,province,city,dist,detailedAddress,onDirect
 }){
+
+  const addressForms = {
+    addressId,
+    userName,
+    phone,
+    province,
+    city,
+    dist,
+    detailedAddress
+  }
   return (
     <List>
       <Item extra={''}>输入所有权人信息</Item>
@@ -63,10 +81,11 @@ function RightManForm({
         arrow="horizontal"
         multipleLine
         thumb="https://zos.alipayobjects.com/rmsportal/dNuvNrtqUztHCwM.png"
-        onClick={() => {console.log("ok")}}
+        onClick={() => {onDirect()}}
         platform="android"
       >
-        姓名: {username},联系电话：{userPhone}<Brief>证书寄送地址：{userAddress}</Brief>
+        {addressId===''?'还没有寄件地址去添加':<Address {...addressForms} />}
+
       </Item>
 
       <GraySpace />

@@ -53,7 +53,7 @@ function RightManForm({
   }
   return (
     <List>
-      <Item extra={''}>输入所有权人信息</Item>
+      <Item extra={''}>所有权证书关联信息</Item>
    {/*   <InputItem
         defaultValue={""}
         placeholder="所有权人姓名"

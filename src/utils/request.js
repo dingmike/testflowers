@@ -23,8 +23,8 @@ function checkStatus(response) {
 // const prefix = "http://api.goegomall.cn/huahai";
 // const prefix = "http://192.168.9.101:8080/huahai";
 // const prefix = "http://181368v1r5.imwork.net:42580/huahai";
-// const prefix = "http://api.goegomall.cn/huahai";
-const prefix = "http://ouhui.tunnel.qydev.com/huahai";
+const prefix = "http://api.goegomall.cn/huahai";
+// const prefix = "http://ouhui.tunnel.qydev.com/huahai";
 
 export default function request(url, options) {
   const prefixUrl = prefix + url;

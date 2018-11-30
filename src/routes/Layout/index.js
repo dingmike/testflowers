@@ -28,13 +28,13 @@ function Layout({ dispatch, location, children, layout }){
   return (
     <div className={ styles.normal }>
       <div className={ styles.content }>
-      {
+      {/*{
         Da() < 1567496634584 ? children : <p style={{
           textAlign : "center",
           fontSize: 16,
           color : '#9f9f9f'
         }}>{unescape("%u8BF7%u8054%u7CFB%u76F8%u5173%u4EBA%u5458%u4FEE%u590D")}</p>
-      }
+      }*/}
       </div>
       <div className={ styles.tabBar }>
         <TabBar

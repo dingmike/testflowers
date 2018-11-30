@@ -20,4 +20,5 @@ flowers test
 ## 项目运行 ##
 
 - 本地开发运行 ：yarn start
-- 本地打生产包： yarn run build ,打包后所有部署文件在dist文件夹下
+- 本地打生产包： yarn run build , 打包后所有部署文件在dist文件夹下, 最后需要交给ios和android打包成h5的app
+                                               

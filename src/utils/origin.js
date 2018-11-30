@@ -49,6 +49,12 @@ function setupWebViewJavascriptBridge(callback) {
 }
 
 export const webViewBridge = setupWebViewJavascriptBridge;
+// 和ios android对接
+/*
+* @params name  调用ios和android的方法名
+* @params type  需要传递的参数对象
+*
+* */
 
 export function bridegWithPhone(name,type) {
   return new Promise((resolve, reject)=> {

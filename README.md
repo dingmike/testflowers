@@ -8,13 +8,18 @@ flowers test
 
 ## 页面布局 ##
 
-- 所有的业务页面在 routes文件夹
+- 所有的业务页面在 routes 文件夹
 
 - 状态管理在models文件夹
 
 ## 后台接口 ##
 
 - 配置接口文件在src\utils\request.js    变量为prefix
+
+## 和ios以及android对接 ##
+
+- 桥接方法在src\utils\origin.js  文件中
+- 调用方法名为bridegWithPhone  传入参数name 和 type
 
 
 ## 项目运行 ##
